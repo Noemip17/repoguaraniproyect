@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Aprender Guaraní - Nivel 1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+        body {
+            font-family: 'Nunito', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-yellow-300 to-orange-500 min-h-screen flex flex-col items-center justify-center p-6">
+
+    <!-- Barra de navegación -->
+    <header class="w-full flex justify-between items-center p-4">
+        <h1 class="text-3xl font-bold text-white">📚 Aprender Guaraní - Nivel 1</h1>
+    </header>
+
+    <!-- Título de Nivel 1 -->
+    <div class="text-center mt-10">
+        <h2 class="text-4xl font-bold text-white">¡Bienvenidos al Nivel 1!</h2>
+        <p class="text-lg text-white mt-4">Elige una categoría para comenzar a aprender.</p>
+    </div>
+
+    <!-- Selección de Categorías -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10 w-full max-w-4xl px-6">
+        <div class="category-card text-center p-6 bg-white/75 rounded-lg shadow-lg hover:bg-orange-100 cursor-pointer" onclick="startCategory('colores')">
+            <img src="img/colores.jpg" alt="Colores" class="w-32 h-32 mx-auto mb-4">
+            <h3 class="text-xl font-bold text-orange-600">Colores</h3>
+            <p class="text-gray-600">Aprende los colores en guaraní.</p>
+        </div>
+
+        <div class="category-card text-center p-6 bg-white/75 rounded-lg shadow-lg hover:bg-orange-100 cursor-pointer" onclick="startCategory('numeros')">
+            <img src="img/numeros.jpg" alt="Números" class="w-32 h-32 mx-auto mb-4">
+            <h3 class="text-xl font-bold text-orange-600">Números</h3>
+            <p class="text-gray-600">Aprende los números en guaraní.</p>
+        </div>
+
+        <div class="category-card text-center p-6 bg-white/75 rounded-lg shadow-lg hover:bg-orange-100 cursor-pointer" onclick="startCategory('animales')">
+            <img src="img/animales.png" alt="Animales" class="w-32 h-32 mx-auto mb-4">
+            <h3 class="text-xl font-bold text-orange-600">Animales</h3>
+            <p class="text-gray-600">Aprende los animales en guaraní.</p>
+        </div>
+    </div>
+
+    <!-- Ejercicios y Progreso -->
+    <div class="mt-12 bg-white/75 p-6 rounded-xl shadow-lg text-center w-3/4">
+        <h3 class="text-2xl font-bold text-orange-600">🌟 Ejercicios Interactivos</h3>
+        <ul class="text-gray-700 mt-4 space-y-2">
+            <li>🎮 Juegos interactivos con selección múltiple.</li>
+            <li>🐾 Emparejamiento de imágenes con palabras.</li>
+            <li>🎤 Pruebas de pronunciación.</li>
+        </ul>
+
+        <h3 class="text-2xl font-bold text-orange-600 mt-8">📊 Progreso del Usuario</h3>
+        <p class="text-gray-700">Mira cómo avanzas mientras aprendes y completa los niveles.</p>
+        <div class="mt-6 bg-gray-200 rounded-full h-4 w-full">
+            <div class="bg-orange-600 h-4 rounded-full" style="width: 10%;"></div>
+        </div>
+        <p class="text-gray-700 mt-2">Nivel alcanzado: 1 de 5</p>
+    </div>
+
+    <script>
+        function startCategory(category) {
+            // Aquí se puede hacer una redirección o cargar contenido dinámicamente
+            alert(`¡Iniciando categoría de ${category}!`);
+            // Redirige a una página diferente con el contenido específico de la categoría
+            window.location.href = `${category}.html`; // Reemplaza por las páginas correspondientes
+        }
+    </script>
+
+</body>
+</html>
