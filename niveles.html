@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Selecciona tu Nivel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .mascota {
+            transition: transform 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-orange-300 to-orange-500 min-h-screen flex flex-col items-center p-6 font-sans">
+
+    <div class="w-full flex justify-between items-center bg-orange-700 text-white px-6 py-4 rounded-b-2xl shadow-lg">
+        <div class="flex items-center space-x-4">
+            <img src="img/mascota.png" class="w-12 h-12 rounded-full" alt="Avatar Usuario">
+            <div>
+                <p class="text-lg font-bold" id="username">Nombre de Usuario</p>
+                <p class="text-md">Nivel: <span id="userLevel">Fácil</span></p>
+            </div>
+        </div>
+        <div>
+            <p class="text-lg font-bold">🔥 Rachas: <span id="streaks">5</span></p>
+        </div>
+    </div>
+
+    <h1 class="text-5xl font-extrabold text-white mt-8 animate-bounce">🚀 ¡Elige tu nivel de aventura!</h1>
+    <p class="text-lg text-white mt-2">Aprende jugando y diviértete mientras avanzas.</p>
+
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+        <div class="bg-white p-6 rounded-2xl shadow-xl transform hover:scale-110 transition-all relative">
+            <h2 class="text-3xl font-bold text-green-600">🌱 Fácil</h2>
+            <p class="text-gray-600">Palabras básicas y sonidos.</p>
+            <button onclick="iniciarNivel('facil')" class="mt-4 bg-green-500 text-white px-6 py-3 rounded-full shadow-lg text-lg hover:bg-green-600 transition-all">
+                ¡Jugar!
+            </button>
+            
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-xl transform transition-all relative">
+            <h2 class="text-3xl font-bold text-yellow-600">🌟 Intermedio</h2>
+            <p class="text-gray-600">Frases y estructuras.</p>
+            <button onclick="iniciarNivel('intermedio')" id="btn-intermedio" class="mt-4 bg-gray-400 text-white px-6 py-3 rounded-full shadow-lg text-lg cursor-not-allowed" disabled>
+                🔒 Bloqueado
+            </button>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-xl transform transition-all relative">
+            <h2 class="text-3xl font-bold text-red-600">🔥 Avanzado</h2>
+            <p class="text-gray-600">Conversaciones y retos.</p>
+            <button onclick="iniciarNivel('avanzado')" id="btn-avanzado" class="mt-4 bg-gray-400 text-white px-6 py-3 rounded-full shadow-lg text-lg cursor-not-allowed" disabled>
+                🔒 Bloqueado
+            </button>
+        </div>
+    </div>
+
+    <div class="mt-12 w-10/12 bg-white p-6 rounded-2xl shadow-lg text-center relative">
+        <h2 class="text-3xl font-bold text-orange-600">🗺️ Tu progreso</h2>
+        <p class="text-gray-700">Sigue el camino y completa los niveles para desbloquear recompensas.</p>
+        <div class="relative flex items-center justify-center mt-6">
+            <div class="flex w-4/5 border-t-4 border-orange-500 relative">
+                <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white text-xl absolute -top-5 left-0">1</div>
+                <div class="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center text-white text-xl absolute -top-5 left-1/2 transform -translate-x-1/2">2</div>
+                <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center text-white text-xl absolute -top-5 right-0">3</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Función para redirigir a nivel1.html con la dificultad seleccionada
+        function iniciarNivel(dificultad) {
+            // Almacenar el nivel seleccionado en sessionStorage
+            sessionStorage.setItem('nivel', dificultad); // Puede ser 'facil', 'medio', 'dificil', etc.
+
+            // Redirigir al nivel 1
+            window.location.href = "nivel1.html"; // Cambia esto si la URL es diferente
+        }
+    </script>
+</body>
+</html>
