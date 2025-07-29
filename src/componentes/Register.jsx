@@ -1,12 +1,19 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function Register() {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
+
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -15,13 +22,31 @@ export default function Register() {
       ...prev,
       [e.target.name]: e.target.value,
     }));
+    setError("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setError("El correo electrónico no tiene un formato válido.");
+      return;
+    }
+
+    if (formData.password.length < 8) {
+      setError("La contraseña debe tener al menos 8 caracteres.");
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Las contraseñas no coinciden.");
+      return;
+    }
+
     try {
-     const response = await fetch("http://localhost:5001/api/register", {
+      setIsLoading(true);
+      const response = await fetch("http://localhost:5001/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,14 +61,14 @@ export default function Register() {
       const data = await response.json();
 
       if (response.ok) {
-        alert("✅ Usuario registrado con éxito");
         navigate("/login");
       } else {
-        alert(data.mensaje || "❌ Error al registrar usuario");
+        setError(data.mensaje || "Error al registrar usuario.");
       }
     } catch (error) {
-      console.error("❌ Error al registrar:", error);
-      alert("Error en la conexión al servidor");
+      setError("Error en la conexión al servidor.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -52,7 +77,8 @@ export default function Register() {
       <div className="bg-white/75 p-8 rounded-xl shadow-lg w-full max-w-md">
         <h1 className="text-3xl font-bold text-center text-orange-600 mb-6">Registrarse</h1>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
+          {/* Nombre de usuario */}
           <div className="mb-4">
             <label htmlFor="username" className="block text-lg text-gray-700">Nombre de Usuario</label>
             <input
@@ -67,6 +93,7 @@ export default function Register() {
             />
           </div>
 
+          {/* Email */}
           <div className="mb-4">
             <label htmlFor="email" className="block text-lg text-gray-700">Correo Electrónico</label>
             <input
@@ -81,25 +108,66 @@ export default function Register() {
             />
           </div>
 
-          <div className="mb-6">
+          {/* Contraseña */}
+          <div className="mb-4 relative">
             <label htmlFor="password" className="block text-lg text-gray-700">Contraseña</label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full p-3 pr-12 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
               placeholder="Contraseña"
               required
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(prev => !prev)}
+              className="absolute right-4 top-8 text-gray-500"
+            >
+              {showPassword ? <FaEye size={20} /> : <FaEyeSlash size={20} />}
+            </button>
           </div>
 
+          {/* Confirmar contraseña */}
+          <div className="mb-6 relative">
+            <label htmlFor="confirmPassword" className="block text-lg text-gray-700">Confirmar Contraseña</label>
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              id="confirmPassword"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              className="w-full p-3 pr-12 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
+              placeholder="Repite la contraseña"
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(prev => !prev)}
+              className="absolute right-4 top-8 text-gray-500"
+            >
+              {showConfirmPassword ? <FaEye size={20} /> : <FaEyeSlash size={20} />}
+            </button>
+          </div>
+
+          {/* Mensaje de error */}
+          {error && (
+            <div className="mb-4 text-red-600 text-center font-medium">
+              {error}
+            </div>
+          )}
+
+          {/* Botón de envío */}
           <button
             type="submit"
-            className="w-full bg-orange-600  text-gray-600 text-lg font-bold py-3 px-4 rounded-full hover:bg-orange-700"
+            disabled={isLoading}
+            className={`w-full text-black text-lg font-bold py-3 px-4 rounded-full ${
+              isLoading ? "bg-orange-400 cursor-not-allowed" : "bg-orange-600 hover:bg-orange-700"
+            }`}
           >
-            Registrarse
+            {isLoading ? "Registrando..." : "Registrarse"}
           </button>
         </form>
 
@@ -111,3 +179,4 @@ export default function Register() {
     </div>
   );
 }
+

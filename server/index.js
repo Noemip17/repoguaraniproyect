@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const connectDB = require("./db");
 const verificarToken = require("./middleware/auth");
 const userRouter = require("./routes/usuarios");
+const traduccionesRouter = require("./routes/traducciones");  // Importar rutas de traducciones
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api", userRouter);
+app.use("/api/traducciones", traduccionesRouter);
 
 // Ruta pública para login (opcional si ya está en userRouter)
 app.post("/login", (req, res) => {

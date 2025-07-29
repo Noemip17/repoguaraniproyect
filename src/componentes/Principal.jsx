@@ -10,46 +10,28 @@ export default function Principal() {
   const vocabLearned = 0;
 
   const categories = [
-    {
-      id: "colores",
-      img: "/img/colores.png",
-      title: "Colores",
-      desc: "Aprende los colores en guaraní.",
-    },
-    {
-      id: "numeros",
-      img: "/img/numeros.png",
-      title: "Números",
-      desc: "Aprende los números en guaraní.",
-    },
-    {
-      id: "animales",
-      img: "/img/animales.png",
-      title: "Animales",
-      desc: "Aprende los animales en guaraní.",
-    },
-    {
-      id: "semana",
-      img: "/img/calendario.png",
-      title: "Días de la Semana",
-      desc: "Aprende los días en guaraní.",
-    },
-    {
-      id: "objetoscasa",
-      img: "/img/casa.png",
-      title: "Objetos de la Casa",
-      desc: "Aprende objetos del hogar en guaraní.",
-    },
-    {
-      id: "saludos",
-      img: "/img/saludos.png",
-      title: "Saludos",
-      desc: "Aprende saludos en guaraní.",
-    },
+    { id: "colores",  img: "/img/colores.png",   title: "Colores",           desc: "Aprende los colores en guaraní." },
+    { id: "numeros",  img: "/img/numeros.png",   title: "Números",           desc: "Aprende los números en guaraní." },
+    { id: "animales", img: "/img/animales.png",  title: "Animales",          desc: "Aprende los animales en guaraní." },
+    { id: "semana",   img: "/img/calendario.png",title: "Días de la Semana", desc: "Aprende los días en guaraní." },
+    { id: "emociones",img: "/img/emociones.jpg", title: "Emociones",         desc: "Aprende las emociones en guaraní." },
+    { id: "saludos",  img: "/img/saludos.png",   title: "Saludos",           desc: "Aprende saludos en guaraní." },
   ];
 
   const startCategory = (category) => {
     navigate(`/categorias/${category}`);
+  };
+
+  // 👉 NUEVO: cerrar sesión
+  const handleLogout = () => {
+    // Si quieres confirmar:
+    // if (!confirm("¿Cerrar sesión?")) return;
+
+    localStorage.removeItem("token");
+    // (Opcional) si quieres borrar progreso local:
+    // localStorage.removeItem("puntosCategorias");
+
+    navigate("/"); // ir al inicio / login
   };
 
   useEffect(() => {
@@ -63,9 +45,7 @@ export default function Principal() {
 
       try {
         const res = await fetch("http://localhost:5001/api/perfil", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
 
         if (!res.ok) {
@@ -79,6 +59,7 @@ export default function Principal() {
         setLoading(false);
       } catch (err) {
         console.error("Error al obtener perfil:", err);
+        localStorage.removeItem("token");
         navigate("/");
       }
     };
@@ -104,7 +85,20 @@ export default function Principal() {
             </h1>
           </div>
         </div>
-        <div className="text-yellow-500 text-3xl">⭐️⭐️⭐️</div>
+
+        <div className="flex items-center gap-3">
+          <div className="text-yellow-500 text-3xl select-none">⭐️⭐️⭐️</div>
+          {/* Botón Cerrar sesión */}
+          <button
+            onClick={handleLogout}
+            className="ml-2 bg-red-500 hover:bg-red-600 text-black px-4 py-2 rounded-lg shadow transition"
+            type="button"
+            aria-label="Cerrar sesión"
+            title="Cerrar sesión"
+          >
+            Cerrar sesión
+          </button>
+        </div>
       </header>
 
       {/* Bienvenida */}
@@ -128,7 +122,7 @@ export default function Principal() {
             <img
               src={cat.img}
               alt={cat.title}
-              className="w-24 h-24 mx-auto rounded-full border-4 border-orange-300 mb-4"
+              className="w-24 h-24 mx-auto rounded-full border-4 border-orange-300 mb-4 object-cover"
             />
             <h3 className="text-xl font-bold text-blue-600">{cat.title}</h3>
             <p className="text-gray-600">{cat.desc}</p>
@@ -140,7 +134,7 @@ export default function Principal() {
       </div>
 
       {/* Progreso */}
-      <div className="mt-12 bg-white p-6 rounded-xl shadow-lg text-center max-w-3xl mx-auto">
+      <div className="mt-12 bg-white p-6 rounded-xl shadow-lg text-center max-w-3xl mx-auto w-full">
         <h3 className="text-2xl font-bold text-purple-600 mb-2">
           📊 Tu Progreso
         </h3>
